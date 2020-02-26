@@ -1,4 +1,4 @@
-# beqom Frontend Test
+# Frontend Test
 
 ## About the boilerplate
 
