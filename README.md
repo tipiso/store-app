@@ -8,7 +8,7 @@ The UI has been already developed. This project uses:
 - [Sass](http://sass-lang.com/)
 - [Redux](https://redux.js.org/)
 - [Redux-thunk](https://github.com/reduxjs/redux-thunk): Redux functional action
-- [Alto-ui](https://beqom.github.io/alto/storybook): beqom's React UI library
+- [Alto-ui](https://beqom.github.io/alto/storybook): React UI library
 
 Feel free to adapt those choices to your needs and add or remove dependencies. You are also free to change the project structure, split, refactor or delete the existing code as you like.
 
