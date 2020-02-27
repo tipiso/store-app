@@ -3,9 +3,17 @@ import TextField from '@beqom/alto-ui/Form/TextField';
 import List from '@beqom/alto-ui/List';
 import Button from '@beqom/alto-ui/Button';
 import IconTrash from '@beqom/alto-ui/Icons/Trash';
+import { connect } from 'react-redux';
+import * as actionTypes from './store/actions';
 
 class App extends React.Component {
+  state = {
+
+  }
+
   render() {
+    //this.props.items zamiast this.state.items
+    //this.props.onDeleteItem zamiast clicked={() => this.deleteItem}
     return (
       <div className="App">
         <div className="Main">
@@ -111,7 +119,10 @@ class App extends React.Component {
             <div className="Total__amount">$74.00</div>
           </div>
           <div className="Checkout-button">
-            <Button>Checkout</Button>
+            <Button onClick={this.props.onStoreResult}>Checkout</Button>
+            <div onClick={this.props.onDeleteStoreResult}>
+              {this.props.storedItems.map(el => <li onClick={() => this.props.onDeleteItem(el.id)}>{el}</li>)}
+            </div>
           </div>
         </aside>
       </div>
@@ -119,4 +130,23 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  //z combinedReducers trzeba sie dostawac np. przez state.<nazwaobiekutreducera>.items
+  // 
+  return {
+    storedItems: state.items,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onDeleteItem: () => dispatch({ type: actionTypes.DELETE, payload: {} }),
+    getProducts: () => dispatch({ type: 'GET_PRODUCTS' }),
+    getProductsCategories: () => dispatch({ type: 'GET_CATEGORIES' }),
+    getCart: () => dispatch({ type: 'GET_CART' }),
+    onStoreResult: () => dispatch({ type: 'STORE_RESULT', payload: { items: [] } }),
+    onDeleteStoreResult: (id) => dispatch({ type: 'STORE_RESULT', id })
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
