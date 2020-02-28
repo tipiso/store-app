@@ -4,26 +4,31 @@ import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import App from './App';
-import reducer from './store/reducer';
+import products from './store/reducers/productReducer';
+import categories from './store/reducers/categoryReducer';
+import cart from './store/reducers/cartReducer';
 import '@beqom/alto-ui/scss/index.scss';
 import './style.scss';
 
-// const rootReducer = combineReducers({ctr: counterReducer, res: resultReducer})
+const rootReducer = combineReducers({products, categories, cart});
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
 
-store.dispatch({ type: 'ADD_ITEM', payload: {} });
-store.dispatch({ type: 'REMOVE_ITEM', payload: {} });
+// store.subscribe(() => {
+//   console.log(store.getState());
+// });
 
-store.subscribe(() => {
-  console.log(store.getState());
-});
+// console.log(process.env.REACT_APP_API_URL);
+// function App(){
+//   return(
+//     <div className="App">
+//       <App />
+//     </div>
+//   );
+// };
 
-
-const app = (
-  <Provider store={store}>
-    <App />
-  </Provider>
-);
-
-render(app, document.getElementById('root'));
+render(
+<Provider store={store}>
+  <App />
+</Provider>,
+ document.getElementById('root'));
