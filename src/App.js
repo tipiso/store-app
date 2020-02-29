@@ -2,13 +2,14 @@ import React, { Fragment } from 'react';
 import TextField from '@beqom/alto-ui/Form/TextField';
 import ProductsContainer from './components/productsContainer';
 import CartContainer from './components/cartContainer';
+import ErrorBoundary from './ErrorBoundary';
 import { connect } from 'react-redux';
 import { fetchProducts } from "./store/products/productsActions";
 import { fetchCategories } from "./store/categories/categoriesActions";
 import { fetchCart } from "./store/cart/cartActions";
 
 class App extends React.Component {
-  componentDidMount(){
+  componentDidMount() {
     this.props.dispatch(fetchCategories());
     this.props.dispatch(fetchProducts());
     this.props.dispatch(fetchCart());
@@ -24,14 +25,21 @@ class App extends React.Component {
         <div className="Main">
           <h2 className="Title">Products</h2>
           <TextField id="search" label="Search" className="Search" />
-          {categories.map(el => !loading && <ProductsContainer key={el.id} catId={el.id} catName={el.name} items={products} />)}
+          {categories.map(el => !loading && <ProductsContainer
+            key={el.id}
+            catId={el.id}
+            catName={el.name}
+            items={products}
+          />)}
         </div>
-        {!cartLoading && <CartContainer products={products} cart={cart}/>}
+        <ErrorBoundary>
+          {!cartLoading && !loading && <CartContainer products={products} cart={cart} />}
+        </ErrorBoundary>
       </div>
     );
   }
 }
-  //z combinedReducers trzeba sie dostawac np. przez state.<nazwaobiekutreducera>.items
+//z combinedReducers trzeba sie dostawac np. przez state.<nazwaobiekutreducera>.items
 const mapStateToProps = state => {
   return {
     products: state.products.items,
