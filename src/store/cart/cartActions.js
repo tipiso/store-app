@@ -14,22 +14,46 @@ export function fetchCart() {
   };
 }
 
+export function handleAddProduct(id) {
+  return (dispatch, getState) => {
+    const cartArray = [...getState().cart.cart];
+    cartArray.push({ productId: id, quantity: 1 });
+    console.log(cartArray, id)
+    dispatch(addProduct(cartArray));
+  }
+}
+
 export function handleCartDelete(id) {
   return (dispatch, getState) => {
-    const cartArray = getState().cart.cart;
+    const cartArray = [...getState().cart.cart];
     const filteredArray = cartArray.filter(product => product.productId !== id);
     dispatch(deleteCartItem(filteredArray));
   }
 }
 
+export function handleCartItemUpdate(e) {
+  return (dispatch, getState) => {
+    const itemId = e.target.id;
+    const value = e.target.value;
+    const cartArray = [...getState().cart.cart];
+    const updatedCart = cartArray.map(item => {
+      if (item.productId === parseInt(itemId)) {
+        item.quantity = parseInt(value);
+      }
+      return item;
+    });
+    dispatch(changeCartItemQuantity(updatedCart));
+  }
+}
+
 export function postCart(cart) {
-  console.log(cart);
   return dispatch => {
     dispatch(postCartBegin());
+    console.log(cart);
     return fetch(`${process.env.REACT_APP_API_URL}/checkout`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(cart)
+      body: JSON.stringify({ cart: cart })
     })
       .then(handleErrors)
       .then(res => res.json())
@@ -47,6 +71,16 @@ function handleErrors(response) {
   }
   return response;
 }
+
+export const addProduct = cart => ({
+  type: actionTypes.HANDLE_ADD_PRODUCT,
+  payload: { cart }
+});
+
+export const changeCartItemQuantity = cart => ({
+  type: actionTypes.CHANGE_CART_ITEM_QUANTITY,
+  payload: { cart }
+});
 
 export const deleteCartItem = cart => ({
   type: actionTypes.DELETE_CART_ITEM,

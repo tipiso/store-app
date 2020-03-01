@@ -1,19 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import IconTrash from '@beqom/alto-ui/Icons/Trash';
 import TextField from '@beqom/alto-ui/Form/TextField';
 import { connect } from 'react-redux';
 import { handleCartDelete } from "../store/cart/cartActions";
+import { handleCartItemUpdate } from "../store/cart/cartActions";
 
 function CartItem(props) {
   const product = props.products.find(el => el.id === props.productId);
-  const productPrice = props.quantity * product.price;
+  let productPrice = 0;
+
+  if (product.discount) {
+    productPrice = props.quantity * (product.price - product.price * product.discount);
+  } else productPrice = props.quantity * product.price;
 
   return (
     <tr>
       <td className="Cart__item-cell Cart__item-cell--name">{product.name}</td>
       <td className="Cart__item-cell">
         <TextField
-          id={`Cart-item-${product.name}-quantity--${product.name}`}
+          id={`${product.id}`}
+          onChange={(event) => props.dispatch(handleCartItemUpdate(event))}
           type="number"
           label="Quantity"
           hideLabel
