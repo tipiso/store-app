@@ -22,7 +22,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { error, loading, catError, catLoading, products, categories, cart, cartLoading } = this.props;
+    const { loading, products, categories, cart, cartLoading } = this.props;
 
     return (
       <div className="App">
@@ -58,13 +58,9 @@ const mapStateToProps = state => {
   return {
     products: state.products.items,
     loading: state.products.loading,
-    error: state.products.error,
     categories: state.categories.categories,
-    catLoading: state.categories.catLoading,
-    catError: state.categories.error,
     cart: state.cart.cart,
     cartLoading: state.cart.loading,
-    cartError: state.cart.error
   };
 };
 

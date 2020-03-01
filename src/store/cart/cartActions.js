@@ -18,7 +18,6 @@ export function handleAddProduct(id) {
   return (dispatch, getState) => {
     const cartArray = [...getState().cart.cart];
     cartArray.push({ productId: id, quantity: 1 });
-    console.log(cartArray, id)
     dispatch(addProduct(cartArray));
   }
 }
@@ -49,7 +48,6 @@ export function handleCartItemUpdate(e) {
 export function postCart(cart) {
   return dispatch => {
     dispatch(postCartBegin());
-    console.log(cart);
     return fetch(`${process.env.REACT_APP_API_URL}/checkout`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

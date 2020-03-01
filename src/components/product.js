@@ -4,23 +4,24 @@ import { handleAddProduct } from "../store/cart/cartActions";
 import { connect } from 'react-redux';
 
 function Product(props) {
+  const { price, id, discount, name } = props;
   let productPrice = 0;
   if (props.discount) {
-    productPrice = props.price - (props.price * props.discount);
-  } else productPrice = props.price;
+    productPrice = price - (price * discount);
+  } else productPrice = price;
 
   return (
     <Fragment>
-      <div className="Product__name">{props.name}</div>
+      <div className="Product__name">{name}</div>
       <div>
-        <div className="Product__price">${props.price}</div>
-        {props.discount &&
+        <div className="Product__price">${price}</div>
+        {discount &&
           <div className="Product__price--discount">${productPrice}</div>
         }
       </div>
       <Button
-        onClick={() => props.dispatch(handleAddProduct(props.id))}
-        id={props.id}
+        onClick={() => props.dispatch(handleAddProduct(id))}
+        id={id}
         outline
         small>
         add to cart

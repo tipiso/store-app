@@ -10,25 +10,12 @@ import cart from './store/reducers/cartReducer';
 import '@beqom/alto-ui/scss/index.scss';
 import './style.scss';
 
-const rootReducer = combineReducers({products, categories, cart});
+const rootReducer = combineReducers({ products, categories, cart });
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
 
-// store.subscribe(() => {
-//   console.log(store.getState());
-// });
-
-// console.log(process.env.REACT_APP_API_URL);
-// function App(){
-//   return(
-//     <div className="App">
-//       <App />
-//     </div>
-//   );
-// };
-
 render(
-<Provider store={store}>
-  <App />
-</Provider>,
- document.getElementById('root'));
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root'));

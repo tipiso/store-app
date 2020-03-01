@@ -6,12 +6,13 @@ import { handleCartDelete } from "../store/cart/cartActions";
 import { handleCartItemUpdate } from "../store/cart/cartActions";
 
 function CartItem(props) {
-  const product = props.products.find(el => el.id === props.productId);
+  const { products, quantity } = props;
+  const product = products.find(el => el.id === props.productId);
   let productPrice = 0;
 
   if (product.discount) {
-    productPrice = props.quantity * (product.price - product.price * product.discount);
-  } else productPrice = props.quantity * product.price;
+    productPrice = quantity * (product.price - product.price * product.discount);
+  } else productPrice = quantity * product.price;
 
   return (
     <tr>

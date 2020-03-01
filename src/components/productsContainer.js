@@ -3,14 +3,15 @@ import Product from './product';
 import List from '@beqom/alto-ui/List';
 
 export default function ProductsContainer(props) {
-  const filteredArray = props.items.filter(el => {
-    if (el.categoryId === props.catId && el.name.toLowerCase().includes(props.searchValue.toLowerCase())) return true
+  const { items, searchValue, catId, catName, cart } = props;
+  const filteredArray = items.filter(el => {
+    if (el.categoryId === catId && el.name.toLowerCase().includes(searchValue.toLowerCase())) return true
     else return false;
   });
   let filteredProducts = [];
 
   filteredProducts = filteredArray.filter(product => {
-    return !props.cart.some(cartItem => {
+    return !cart.some(cartItem => {
       return product.id === cartItem.productId;
     })
   })
@@ -19,7 +20,7 @@ export default function ProductsContainer(props) {
     <Fragment>
       {filteredProducts.length !== 0 ?
         <Fragment>
-          <h3 className="Title Title--category">{props.catName}</h3>
+          <h3 className="Title Title--category">{catName}</h3>
           <List className="Products" items={filteredProducts}>
             {item => (
               <Product
