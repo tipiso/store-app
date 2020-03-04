@@ -1,27 +1,25 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useMemo } from 'react';
 import Product from './product';
+import { connect } from 'react-redux';
 import List from '@beqom/alto-ui/List';
 
-export default function ProductsContainer(props) {
-  const { items, searchValue, catId, catName, cart } = props;
-  const filteredArray = items.filter(el => {
+function ProductsContainer(props) {
+  const { products, searchValue, catId, catName, cart } = props;
+
+  const filteredArray = products.filter(el => {
     if (el.categoryId === catId && el.name.toLowerCase().includes(searchValue.toLowerCase())) return true
     else return false;
-  });
-  let filteredProducts = [];
-
-  filteredProducts = filteredArray.filter(product => {
+  }).filter(product => {
     return !cart.some(cartItem => {
       return product.id === cartItem.productId;
-    })
-  })
+  })});
 
   return (
     <Fragment>
-      {filteredProducts.length !== 0 ?
+      {filteredArray.length !== 0 ?
         <Fragment>
           <h3 className="Title Title--category">{catName}</h3>
-          <List className="Products" items={filteredProducts}>
+          <List className="Products" items={filteredArray}>
             {item => (
               <Product
                 id={item.id}
@@ -37,3 +35,12 @@ export default function ProductsContainer(props) {
     </Fragment>
   )
 }
+const mapStateToProps = state => {
+  return {
+    products: state.products.items,
+    categories: state.categories.categories,
+    cart: state.cart.cart,
+    searchValue: state.products.searchPhrase
+  };
+}
+export default connect(mapStateToProps)(React.memo(ProductsContainer));

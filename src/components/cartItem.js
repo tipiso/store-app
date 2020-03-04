@@ -42,12 +42,11 @@ function CartItem(props) {
   )
 }
 
-const mapStateToProps = state => {
-  return {
-    products: state.products.items,
-    error: state.cart.error,
-    loading: state.cart.loading
-  };
-};
+// const mapStateToProps = state => {
+//   return {
+//     error: state.cart.error,
+//     loading: state.cart.loading
+//   };
+// };
 
-export default connect(mapStateToProps)(CartItem);
+export default connect(null)(CartItem);

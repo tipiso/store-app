@@ -37,6 +37,7 @@ function CartContainer(props) {
                 key={product.productId}
                 productId={product.productId}
                 quantity={product.quantity}
+                products={products}
               />)}
             </tbody>
           </table>
@@ -58,7 +59,8 @@ const mapStateToProps = state => {
   return {
     products: state.products.items,
     error: state.products.error,
-    loading: state.products.loading
+    loading: state.products.loading,
+    cart: state.cart.cart
   };
 };
 

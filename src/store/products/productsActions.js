@@ -14,12 +14,23 @@ export function fetchProducts() {
   };
 }
 
+export function handleFilterProducts(searchPhrase){
+  return dispatch =>{
+      dispatch(filterProducts(searchPhrase.toLowerCase()));
+  }
+}
+
 function handleErrors(response) {
   if (!response.ok) {
     throw Error(response.statusText);
   }
   return response;
 }
+
+export const filterProducts = searchPhrase => ({
+  type: actionTypes.HANDLE_FILTER_PRODUCTS,
+  payload: {searchPhrase}
+});
 
 export const fetchProductsBegin = () => ({
   type: actionTypes.FETCH_PRODUCTS_BEGIN
